@@ -34,8 +34,7 @@ public class Tests {
         assertEquals(carWithMaxHorsePower.getHorsePower(), 350);
         log.info("Test1 passed");
     }
-
-
+    
     @Test
     public void Test2() {
         log.info("Start Test2");
