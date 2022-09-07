@@ -1,32 +1,21 @@
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
-public class Tests {
-    private List<Car> cars;
-
-    @BeforeEach
-    public void Setup() {
-
-        Path p = Paths.get("src/main/assets/Testdata.json");
-        JsonParser parser = new JsonParser(p.toAbsolutePath());
-        this.cars = parser.parse();
-    }
+public class Tests extends TestBase {
 
     @Test
+    @Tag("REGRESSION")
     public void Test1() {
         log.info("Start Test1");
-        Car carWithMaxHorsePower = cars.get(0);
-        for (Car current : cars) {
+        iCar carWithMaxHorsePower = cars.get(0);
+        for (iCar current : cars) {
             if (current.getHorsePower() > carWithMaxHorsePower.getHorsePower()) {
                 carWithMaxHorsePower = current;
             }
@@ -34,12 +23,13 @@ public class Tests {
         assertEquals(carWithMaxHorsePower.getHorsePower(), 350);
         log.info("Test1 passed");
     }
-    
+
     @Test
+    @Tag("REGRESSION")
     public void Test2() {
         log.info("Start Test2");
-        ArrayList<Car> sedans = new ArrayList<Car>();
-        for (Car current : cars) {
+        ArrayList<iCar> sedans = new ArrayList<iCar>();
+        for (iCar current : cars) {
             if (current.getType() == Type.SEDAN) {
                 sedans.add(current);
             }
@@ -49,17 +39,30 @@ public class Tests {
     }
 
     @Test
+    @Tag("REGRESSION")
     public void Test3() {
         log.info("Start Test3");
-        ArrayList<Car> bigEngines = new ArrayList<Car>();
-        for (Car current : cars) {
+        ArrayList<iCar> bigEngines = new ArrayList<iCar>();
+        for (iCar current : cars) {
             if (current.getEngine() > 1.6) {
                 bigEngines.add(current);
             }
         }
-        for (Car current : bigEngines) {
+        for (iCar current : bigEngines) {
             assertTrue(current.getEngine() > 1.8);
         }
         log.info("Test3 passed");
+    }
+
+    @Test
+    @Tag("REGRESSION")
+    public void Test4() {
+        log.info("Start Test4");
+        for (iCar current : cars) {
+            if (current.getHorsePower() >= 200) {
+                assertTrue(current instanceof LuxuryCar);
+            }
+        }
+        log.info("Test4 passed");
     }
 }

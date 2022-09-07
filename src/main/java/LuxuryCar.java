@@ -1,4 +1,4 @@
-public class Car implements iCar {
+public class LuxuryCar implements iCar {
 
     private final String name;
     private final int maxSpeed;
@@ -6,7 +6,7 @@ public class Car implements iCar {
     private final int horsePower;
     private final Type type;
 
-    private Car(CarBuilder builder) {
+    private LuxuryCar(LuxuryCarBuilder builder) {
         this.name = builder.name;
         this.maxSpeed = builder.maxSpeed;
         this.engine = builder.engine;
@@ -39,39 +39,39 @@ public class Car implements iCar {
         return name + " " + type + " " + maxSpeed + " " + engine + " " + horsePower;
     }
 
-    public static class CarBuilder {
+    public static class LuxuryCarBuilder {
         private String name;
         private int maxSpeed;
         private double engine;
         private int horsePower;
         private final Type type;
 
-        public CarBuilder(Type type) {
+        public LuxuryCarBuilder(Type type) {
             this.type = type;
         }
 
-        public CarBuilder name(String name) {
+        public LuxuryCarBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public CarBuilder maxSpeed(int maxSpeed) {
+        public LuxuryCarBuilder maxSpeed(int maxSpeed) {
             this.maxSpeed = maxSpeed;
             return this;
         }
 
-        public CarBuilder engine(double engine) {
+        public LuxuryCarBuilder engine(double engine) {
             this.engine = engine;
             return this;
         }
 
-        public CarBuilder horsePower(int horsePower) {
+        public LuxuryCarBuilder horsePower(int horsePower) {
             this.horsePower = horsePower;
             return this;
         }
 
-        public Car build() {
-            return new Car(this);
+        public LuxuryCar build() {
+            return new LuxuryCar(this);
         }
     }
 }

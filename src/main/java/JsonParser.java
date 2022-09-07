@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class JsonParser {
@@ -14,20 +15,40 @@ public class JsonParser {
         this.path = path;
     }
 
-    public List<Car> parse() {
-        List<Car> cars = new ArrayList<Car>();
+    public List<iCar> parse() {
+        List<HashMap<String, String>> elements;
+        List<iCar> cars = new ArrayList<iCar>();
         try {
-            // create Gson instance
+
             Gson gson = new Gson();
-
-            // create a reader
             Reader reader = Files.newBufferedReader(this.path);
-
-            // convert JSON array to list of cars
-            cars = new Gson().fromJson(reader, new TypeToken<List<Car>>() {
+            elements = new Gson().fromJson(reader, new TypeToken<List<HashMap<String, String>>>() {
             }.getType());
 
-            // close reader
+            for (HashMap<String, String> element : elements) {
+                String name = element.get("name");
+                String type = element.get("type");
+                int maxSpeed = Integer.parseInt(element.get("maxSpeed"));
+                double engine = Double.parseDouble(element.get("engine"));
+                int horsePower = Integer.parseInt(element.get("horsePower"));
+
+                if (horsePower >= 200) {
+                    cars.add(new LuxuryCar.LuxuryCarBuilder(Type.valueOf(type))
+                            .name(name)
+                            .maxSpeed(maxSpeed)
+                            .engine(engine)
+                            .horsePower(horsePower)
+                            .build());
+                } else {
+                    cars.add(new Car.CarBuilder(Type.valueOf(type))
+                            .name(name)
+                            .maxSpeed(maxSpeed)
+                            .engine(engine)
+                            .horsePower(horsePower)
+                            .build());
+                }
+            }
+
             reader.close();
 
         } catch (Exception ex) {
